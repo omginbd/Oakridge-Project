@@ -6,4 +6,7 @@ We should maybe copy some of the basic html from the old site over, just so we h
 
 Work Log:
 June 4, 2015
+     Added in temporary markup. This needs to be looked at Michael.  Don't just approve.  Because I didn't use any
+     Bootstrap and I want to see what you think of this. :)  Some of the things probably fit some Bootstrap features
+     that we should use.  What do you think?
     
