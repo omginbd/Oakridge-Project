@@ -3,3 +3,7 @@ May 30, 2015
 fillerData
 
 We should maybe copy some of the basic html from the old site over, just so we have something to work with.
+
+Work Log:
+June 4, 2015
+    
