@@ -1,0 +1,40 @@
+
+.logo {
+	width: 100%;
+	margin-bottom:25px;
+}
+
+#logo {
+	width:100%;
+}
+
+.sidebarWell {
+	height:95vh;
+}
+
+.headerWell {
+	margin-left:-25px;
+	font-size:35px;
+	color:white;
+	background-color:#339966;
+}
+
+body {
+
+}
+
+.contentWell {
+	margin-left:-25px;
+	margin-top:-15px;
+	height:87vh;
+}
+
+.loginButton {
+	color:black;
+	font-size:25px;
+	font-weight:bold;
+}
+
+.menu-items {
+	font-size:25px;
+}
