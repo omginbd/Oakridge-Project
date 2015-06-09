@@ -1,40 +1,172 @@
+/*extra large*/
+@media screen and (min-width: 1440px){
+    body{background-color:lightblue;}
+    
+    .navbar {
+        width: 349px;
+        height: 100vh;
+        border-radius: 0px;
+        padding: 0px;
+        margin: 0px;
+        background-color: #eaeaea;
+        float: left;
+        position: fixed;
+    }
+    
+    .sidebar {
+        background-color: auto;
+    }
 
-.logo {
-	width: 100%;
-	margin-bottom:25px;
+    .side-nav {
+        background-color: #d0d0d0;
+        padding: 8px;
+        margin: 8px;
+    }
+
+    .menuTitle {
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+    }
+    
+    .menuTitle h2{
+        font-size: 48px;
+        color: #6c6c6c;
+    }
+
+    .menu-item {
+        padding: 6px 32px;
+        font-size: 22px;
+        color: white;
+        background-color: #6c6c6c;
+        margin-top: 1px;
+        font-family: 'Ubuntu', sans-serif;
+    }
+    
+    .menu-item:hover{
+        background-color: #02735a;
+    }
+    
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    a:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    #logo {
+        width: 100%;
+    }
+
+    .headerWell {
+        background-color: #02735a;
+        height: 135px;
+        border-radius: 0px;
+    }
+
+    header h1 {
+        font-size: 68px;
+        color: #f3f3f3;
+        padding-left: 65px;
+        margin-top: 30px;
+    }
+    
+    
+    .loginButton {
+        margin-right: 20px;
+        border-radius: 0px;
+        padding: 4px;
+        background-color: #86aea5;
+        margin-top: 22px;
+    }
+
+    .buttonInner {
+        padding: 5px 20px 5px 20px;
+        background-color: #abbfbb;
+        font-size: 48px;
+        font-weight: bolder;
+        text-align: center;
+    }
+
 }
 
-#logo {
-	width:100%;
+/*large*/
+@media screen and (min-width: 1024px) and (max-width: 1439px){
+    body{background-color:lightcoral;}
 }
 
-.sidebarWell {
-	height:95vh;
+/*medium*/
+@media screen and (min-width: 768px) and (max-width: 1023px){
+    body{background-color:lightgreen;}
 }
 
-.headerWell {
-	margin-left:-25px;
-	font-size:35px;
-	color:white;
-	background-color:#339966;
+/*small*/
+@media screen and (min-width: 480px) and (max-width: 767px){
+    body{background-color:lightsalmon;}
 }
 
-body {
+/*extra small*/
+@media screen and (max-width: 479px){
+    body{background-color:lightyellow;}
+}
 
+
+/* ================================================================== */
+/* ================================================================== */
+/* ================================================================== */
+
+/* universal styels */
+.row {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.col-lg-4 {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.well {
+    padding: 0px !important;
+    margin: 0px !important;
 }
 
 .contentWell {
-	margin-left:-25px;
-	margin-top:-15px;
-	height:87vh;
+    padding: 0px !important;
+    margin: 0px !important;
+
 }
 
-.loginButton {
-	color:black;
-	font-size:25px;
-	font-weight:bold;
+#rightSide {
+    width: auto;
+    float: right;
+    margin: 0px;
+    padding: 0px;
+    width: 1640px;
+    background-color: white;
 }
 
-.menu-items {
-	font-size:25px;
+.mainContent {
+    margin: 40px;
+    padding: 50px 70px;
+    border-radius: 0px;
+    background-color: #eaeaea;
+}
+
+p{
+    color: #282828;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 24px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    
+}
+
+.hr {
+    margin: 20px 40px;
+    border-bottom: 2px solid #282828;
 }
