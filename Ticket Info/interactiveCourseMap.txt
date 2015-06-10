@@ -1,0 +1,9 @@
+James Collier
+June 9, 2015
+interactiveCourseMap
+
+This is the start of the interactive course map.  We need graphics, and UI specs, and then code and css.
+
+Work Log:
+June 9, 2015
+	- Added the .psd of the interactive map pieces.  9/18 holes are complete.
