@@ -1,0 +1,7 @@
+James Collier
+June 10, 2015
+cssAdjustments
+
+I'm going to copy the styles that are in the extra large media query to the other media queries so that there are some styles to work with.  Then I'll adjust the styles to look good for those sizes.  Lastly, after a design rework, I'll update the designs to fit the specs.
+
+Work Log:
