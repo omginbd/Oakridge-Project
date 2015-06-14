@@ -1,8 +1,8 @@
 $(function(){
-    $("#rightSide").css("width",($(document).width() - 350) + "px");
+    $("#rightSide").css("width",($(document).width() - $(".navbar").width()) + "px");
 });
   
 $( window ).resize(function() {
-  $("#rightSide").css("width",($(document).width() - 350) + "px");
+  $("#rightSide").css("width",($(document).width() - $(".navbar").width()) + "px");
 });
  
