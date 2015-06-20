@@ -399,17 +399,6 @@
 @media screen and (min-width: 480px) and (max-width: 767px){
     body{background-color:lightsalmon;}
     
-    .navbar {
-        width: 349px;
-        height: 100vh;
-        border-radius: 0px;
-        padding: 0px;
-        margin: 0px;
-        background-color: #eaeaea;
-        float: left;
-        position: fixed;
-    }
-    
     .sidebar {
         background-color: auto;
     }
@@ -489,8 +478,6 @@
     }
     
     #rightSide {
-        width: auto;
-        float: right;
         margin: 0px;
         padding: 0px;
         width: 1640px;
@@ -620,8 +607,6 @@
     }
     
     #rightSide {
-        width: auto;
-        float: right;
         margin: 0px;
         padding: 0px;
         width: 1640px;
