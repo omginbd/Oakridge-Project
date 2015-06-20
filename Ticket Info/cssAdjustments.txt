@@ -6,3 +6,4 @@ I'm going to copy the styles that are in the extra large media query to the othe
 
 Work Log:
     June 20th, 2015 - adjusted styles, adjusted basic resize, started textResizer(). - James Collier
+    June 20th, 2015 - testing git credentials.
