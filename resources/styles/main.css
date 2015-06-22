@@ -449,7 +449,6 @@
 
     .headerWell {
         background-color: #02735a;
-        height: 135px;
         border-radius: 0px;
     }
 
@@ -457,9 +456,12 @@
         font-size: 68px;
         color: #f3f3f3;
         text-align: center;
-        margin-top: 30px;
     }
     
+    #pageTitle {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
     
     .loginButton {
         margin-right: 20px;
@@ -480,7 +482,6 @@
     #rightSide {
         margin: 0px;
         padding: 0px;
-        width: 1640px;
         background-color: white;
     }
 
@@ -578,7 +579,6 @@
 
     .headerWell {
         background-color: #02735a;
-        height: 95px;
         border-radius: 0px;
     }
 
@@ -586,7 +586,11 @@
         font-size: 68px;
         color: #f3f3f3;
         text-align: center;
-        margin-top: 30px;
+    }
+    
+    #pageTitle {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
     
     
@@ -609,7 +613,6 @@
     #rightSide {
         margin: 0px;
         padding: 0px;
-        width: 1640px;
         background-color: white;
     }
 
