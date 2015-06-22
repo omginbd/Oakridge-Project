@@ -7,3 +7,4 @@ I'm going to copy the styles that are in the extra large media query to the othe
 Work Log:
     June 20th, 2015 - adjusted styles, adjusted basic resize, started textResizer(). - James Collier
     June 20th, 2015 - testing git credentials.
+    June 22nd, 2015 - rewrote the structure of the javscript a bunch, made ths small styles look ok and responsive title size.
