@@ -11,7 +11,7 @@ var RESPONSIVE,
 $(function () {
     'use strict';
     try {
-        RESPONSIVE.adjustSize();
+        RESPONSIVE.adjustSize({"extra": true});
         var x = 1;
         ASSERT.assert(x === 1);
     } catch (e) {
@@ -26,7 +26,7 @@ $(function () {
 ***********************************************************************************************************************/
 $(window).resize(function () {
     'use strict';
-    RESPONSIVE.adjustSize();
+    RESPONSIVE.adjustSize({"extra": false});
 });
 
 /***********************************************************************************************************************
@@ -161,10 +161,11 @@ var RESPONSIVE = (function () {
     *   - measures window width, and calls the appropriate functions to adjust the
     *       view for the user
     *******************************************************************************/
-    function adjustSize() {
+    function adjustSize(params) {
         var windowWidth = $(window).width(),
             navBarWidth = $(".navbar").width(),
-            rightSideEle = $("#rightSide");
+            rightSideEle = $("#rightSide"),
+            extra = params.extra;
 
         if (windowWidth < SMALL_BREAK_POINT) {
             rightSideEle.css("width", windowWidth);
@@ -175,12 +176,16 @@ var RESPONSIVE = (function () {
             mobileShow(false);
             $("#pageTitle").css("font-size", ""); // use css font-size specs
         }
+        
+        if (extra) {
+            adjustSize({"extra": false});
+        }
     }
     
     // return the functions that need public access
     return {
-        adjustSize: function () {
-            adjustSize();
+        adjustSize: function (params) {
+            adjustSize(params);
         },
         textResizer: function (params) {
             textResizer(params);

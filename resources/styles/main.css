@@ -1,6 +1,6 @@
 /*extra large*/
 @media screen and (min-width: 1440px){
-    body{background-color:lightblue;}
+    body{background-color:white;}
     
     .navbar {
         width: 349px;
@@ -131,7 +131,7 @@
 
 /*large*/
 @media screen and (min-width: 1024px) and (max-width: 1439px){
-    body{background-color:lightcoral;}
+    body{background-color:white;}
     
     .navbar {
         width: 259px;
@@ -263,7 +263,7 @@
 
 /*medium*/
 @media screen and (min-width: 768px) and (max-width: 1023px){
-    body{background-color:lightgreen;}
+    body{background-color:white;}
     
     .navbar {
         width: 190px;
@@ -397,7 +397,7 @@
 
 /*small*/
 @media screen and (min-width: 480px) and (max-width: 767px){
-    body{background-color:lightsalmon;}
+    body{background-color:white;}
     
     .sidebar {
         background-color: auto;
@@ -516,7 +516,7 @@
 
 /*extra small*/
 @media screen and (max-width: 479px){
-    body{background-color:lightyellow;}
+    body{background-color:white;}
     
     .navbar {
         width: 349px;
@@ -621,7 +621,6 @@
         padding: 10px 10px;
         border-radius: 0px;
         background-color: #eaeaea;
-        background-color: aqua;
     }
 
     p {
