@@ -2,9 +2,13 @@ James Collier
 June 10, 2015
 cssAdjustments
 
-I'm going to copy the styles that are in the extra large media query to the other media queries so that there are some styles to work with.  Then I'll adjust the styles to look good for those sizes.  Lastly, after a design is reworked, I'll update the designs to fit the specs.
+I'm going to copy the styles that are in the extra large media query to the other media queries so that there are some 
+styles to work with.  Then I'll adjust the styles to look good for those sizes.  Lastly, after a design is reworked, 
+I'll update the designs to fit the specs.
 
 Work Log:
     June 20th, 2015 - adjusted styles, adjusted basic resize, started textResizer(). - James Collier
     June 20th, 2015 - testing git credentials.
-    June 22nd, 2015 - rewrote the structure of the javscript a bunch, made ths small styles look ok and responsive title size.
+    June 22nd, 2015 - rewrote the structure of the javscript a bunch, made ths small styles look ok and responsive title 
+    	size.  Also, removed temp colors and added parameters to the adjustSize() function to safeguard against strange 
+    	edge cases where the resize changes the state of the scrollbar and causes problems.
