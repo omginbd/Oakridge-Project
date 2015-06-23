@@ -7,6 +7,8 @@ function in app.js  It should look like all the other menu items.  It should hav
 <a><div>login</div</a>) as the othe menu items with the correct classes.  It should have an additional class 
 that the javascript can latch on to.
 
+Assigned to: omginbd
+
 Work Log:
 June 23rd, 2015
     - created the ticket.
