@@ -1,0 +1,16 @@
+James Collier
+June 23, 2015
+loginDialog
+
+Description:
+For desktop - create a login dialog box that slides down from the top right of the screen when the user clicks on 
+the login button.  See http://jamescollier7.com/Oakridge2/index.html# .  The inputs don't need to connect into 
+anything, they just need to be there, somewhat syled.
+For Mobile - Try a couple different things.  A pop over, a slide down, a transformation.  It needs to be mobile-friendly, large fonts, and really easy and obvious.
+
+Assigned to: jamescollier7
+
+
+Work Log:
+June 23rd, 2015
+    - Created the ticket.
