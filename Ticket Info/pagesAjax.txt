@@ -1,0 +1,11 @@
+James Collier
+June 23, 2015
+pagesAjax
+
+We need to design the system and get some test content switching in and out when we click the menu items.  I want it to ajax so that it avoids page loads.  Then, once the system works, we need to get filler content that is semi-official for each of the pages.
+
+Assigned to: _____
+
+Work Log:
+June 23rd, 2015
+    - created the ticket.
