@@ -14,3 +14,6 @@ Assigned to: jamescollier7
 Work Log:
 June 23rd, 2015
     - Created the ticket.
+    
+June 24th, 2015
+    - Completed the base html, js, and css for the login dialog.
