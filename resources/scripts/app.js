@@ -12,12 +12,12 @@ $(function () {
     'use strict';
     try {
         RESPONSIVE.adjustSize({"extra": true});
+        RESPONSIVE.buildMobileMenu();
         var x = 1;
         ASSERT.assert(x === 1);
     } catch (e) {
         console.error(e);
     }
-    
 });
 
 /***********************************************************************************************************************
@@ -36,7 +36,12 @@ $(window).resize(function () {
 var RESPONSIVE = (function () {
     'use strict';
     // responsive variables
-    var SMALL_BREAK_POINT = 768;
+    var SMALL_BREAK_POINT = 768,
+        mobileMenuList = $("#mobileMenuList"),
+        mobileMenuPulldownTab = $("#mobileMenuPulldownTab");
+    mobileMenuPulldownTab.on("click", function () {
+        mobileMenuList.slideToggle(100);
+    });
 
     /*******************************************************************************
     * mobileShow()
@@ -44,14 +49,17 @@ var RESPONSIVE = (function () {
     *******************************************************************************/
     function mobileShow(pShow) {
         var mobileMenu = $("#mobileMenu"),
+            mobileMenuList = $("#mobileMenuList"),
             nav = $('nav'),
             loginButton = $(".loginButton");
         if (pShow) {
             mobileMenu.show();
+            mobileMenuList.hide();
             nav.hide();
             loginButton.hide();
         } else {
             mobileMenu.hide();
+            mobileMenuList.hide();
             nav.show();
             loginButton.show();
         }
@@ -163,23 +171,54 @@ var RESPONSIVE = (function () {
     *******************************************************************************/
     function adjustSize(params) {
         var windowWidth = $(window).width(),
+            windowHeight = $(window).height(),
             navBarWidth = $(".navbar").width(),
+            windowWidthAdjusted,
             rightSideEle = $("#rightSide"),
+            mobileMenuList = $("#mobileMenuList"),
+            rightSideHeight,
             extra = params.extra;
-
-        if (windowWidth < SMALL_BREAK_POINT) {
-            rightSideEle.css("width", windowWidth);
+        
+        windowWidthAdjusted = windowWidth;
+        rightSideHeight = rightSideEle.height(); // get current window width
+        if (rightSideHeight > windowHeight) {
+            windowWidthAdjusted += 15; // default scrollbar width needs to be subtracted
+        }
+        
+        if (windowWidthAdjusted < SMALL_BREAK_POINT) {
+            // do smaller settings
+            rightSideEle.css("width", windowWidth + "px");
             mobileShow(true);
             textResizer({"ele": "#pageTitle", "size": "full"});
+            mobileMenuList.css("width", windowWidth + "px");
         } else {
+            // do larger settings
             rightSideEle.css("width", windowWidth - navBarWidth);
             mobileShow(false);
             $("#pageTitle").css("font-size", ""); // use css font-size specs
         }
         
         if (extra) {
-            adjustSize({"extra": false});
+            adjustSize({"extra": false}); // this helps resolve an issue on load to remove the horizontal scrollbar
         }
+    }
+    
+    /*******************************************************************************
+    * buildMobileMenu()
+    *   - This copies the menu from the left side nav, and puts it in the mobile
+    *       menu.
+    *   - This makes it so we don't need to duplicate our menu in the HTML
+    *******************************************************************************/
+    function buildMobileMenu() {
+        // get all elements from main menu
+        // paste them in mobile menu
+        var allMenuItems = $(".menu-items a").clone(),
+            mobileMenuContainer = $("#mobileMenuList ul");
+        mobileMenuContainer.empty();
+        allMenuItems.each(function (i, obj) {
+            var ele = obj;
+            mobileMenuContainer.append(ele);
+        });
     }
     
     // return the functions that need public access
@@ -189,6 +228,9 @@ var RESPONSIVE = (function () {
         },
         textResizer: function (params) {
             textResizer(params);
+        },
+        buildMobileMenu: function () {
+            buildMobileMenu();
         }
     };
 }());
