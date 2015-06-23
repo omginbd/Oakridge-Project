@@ -13,8 +13,9 @@ $(function () {
     try {
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
-        var x = 1;
-        ASSERT.assert(x === 1);
+        //The following lines are examples of how to use the assert
+//        var x = 1;
+//        ASSERT.assert(x === 1);
     } catch (e) {
         console.error(e);
     }
