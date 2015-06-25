@@ -2,7 +2,8 @@
 
 // global vars
 var RESPONSIVE,
-    ASSERT;
+    ASSERT,
+    AJAX;
 
 /***********************************************************************************************************************
 * On Load
@@ -13,6 +14,7 @@ $(function () {
     try {
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
+        AJAX.attachToMenu();
         //The following lines are examples of how to use the assert
 //        var x = 1;
 //        ASSERT.assert(x === 1);
@@ -257,4 +259,78 @@ var ASSERT = (function () {
             assert(condition, message);
         }
     };
+}());
+
+/***********************************************************************************************************************
+* AJAX
+*   - an app to handle ajaxing pages when the user clicks in the navigation.
+***********************************************************************************************************************/
+var AJAX = (function () {
+    'use strict';
+    
+    /*******************************************************************************
+    * mapPageName()
+    *   - takes the string of the clicked item, and passes back the html page path
+    *       that it maps to
+    *******************************************************************************/
+    function mapPageName(pageName) {
+        var pageNames = {
+            "membership": "membership.html",
+            "golf": "golf.html",
+            "restaurant": "restaurant.html",
+            "pool": "pool.html",
+            "pro shop": "proshop.html",
+            "business office": "businessoffice.html",
+            "clubhouse": "clubhouse.html",
+            "about / contact": "about-contact.html",
+            "404": "404.html"
+        };
+        
+        // return the page if found, or return 404 page
+        if (pageNames[pageName.toLocaleLowerCase()]) {
+            return pageNames[pageName.toLocaleLowerCase()];
+        } else {
+            return "404.html";
+        }
+        
+    }
+    
+    /*******************************************************************************
+    * loadPage()
+    *   - takes a page name, uses mapPageName() to convert it to it's respective 
+    *       path, and loads that page into the main content div.
+    *******************************************************************************/
+    function loadPage(pageName) {
+        var pagePath = mapPageName(pageName),
+            mainContentDiv = $(".mainContent");
+        mainContentDiv.load(pagePath, function () {
+            RESPONSIVE.adjustSize({"extra": false}); // some strangeness was happening with the rightside header width, this resolves it
+        });
+    }
+    
+    /*******************************************************************************
+    * attachToMenu()
+    *   - attaches on clicks to all the menu items so that they will do ajax
+    *******************************************************************************/
+    function attachToMenu() {
+        //for each menu item, make on click use load Page
+        var menuItems = $(".menu-items .menu-item");
+        menuItems.each(function (menuItem) {
+            var item = $(menuItems[menuItem]),
+                itemText = item.html();
+            item.on("click", function () {
+                loadPage(itemText);
+            });
+        });
+    }
+    
+    return {
+        loadPage: function (pageName) {
+            loadPage(pageName);
+        },
+        attachToMenu: function () {
+            attachToMenu();
+        }
+    };
+        
 }());
