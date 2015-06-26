@@ -5,6 +5,20 @@ var RESPONSIVE,
     ASSERT,
     AJAX;
 
+// todo - this is copy pasta from stack overflow, if we decide to keep this, we should make it smarter.
+String.prototype.width = function (font) {
+    'use strict';
+    var f = font || '12px arial',
+        o = $('<div>' + this + '</div>')
+            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
+            .appendTo($('body')),
+        w = o.width();
+
+    o.remove();
+
+    return w;
+};
+
 /***********************************************************************************************************************
 * On Load
 *   - runs the responsive.adjustSize to accomodate current window size
@@ -82,6 +96,7 @@ var RESPONSIVE = (function () {
             size = params.size || "",
             parentWidth,
             ele,
+            wordCount,
             maxSize,
             desiredSize,
             findParentWidth = function () {
@@ -102,7 +117,47 @@ var RESPONSIVE = (function () {
                     testEleMarginRight = parseInt(ele.parent().css("margin-right"), 10),
                     previousTestEleHeight,
                     done = false,
-                    currentSize = 1;
+                    currentSize = 1,
+                    testWidth;
+                
+                // todo - rework all of this, this is terrible
+                if (testEle.text().indexOf(" ") < 0) {
+                    // one word
+                    maxSize = 12;
+                    testWidth = testEle.text().width(maxSize + "px arial");
+                    console.log(testWidth);
+                    console.log(testEleWidth);
+                    while (testWidth < testEleWidth) {
+                        console.log(testWidth);
+                        console.log(testEleWidth);
+                        maxSize += 10;
+                        testEle.css("font-size", maxSize + "px");
+                        testWidth = testEle.text().width(maxSize + "px arial");
+                    }
+                    maxSize -= 10;
+                    
+                    while (testWidth < testEleWidth) {
+                        console.log(testWidth);
+                        console.log(testEleWidth);
+                        maxSize += 5;
+                        testEle.css("font-size", maxSize + "px");
+                        testWidth = testEle.text().width(maxSize + "px arial");
+                    }
+                    
+                    maxSize -= 5;
+                    
+                    while (testWidth < testEleWidth) {
+                        console.log(testWidth);
+                        console.log(testEleWidth);
+                        maxSize += 1;
+                        testEle.css("font-size", maxSize + "px");
+                        testWidth = testEle.text().width(maxSize + "px arial");
+                    }
+                    
+                    maxSize -= 3;
+                    return;
+                }
+                
                 testEle.css("font-size", currentSize + "px");
                 testEle.css("position", "absolute");
                 testEle.css("z-index", "-1000"); // so the test element doesn't show
@@ -244,8 +299,11 @@ var RESPONSIVE = (function () {
 ***********************************************************************************************************************/
 var ASSERT = (function () {
     'use strict';
-    var assert = function (condition, message) {
+    var assert = function (condition, func, message) {
         if (!condition) {
+            if (func) {
+                func(); // execute the callback function if it's passed in
+            }
             message = message || "Assertion failed on: " + condition;
             if (typeof Error !== "undefined") {
                 throw new Error(message); // use JavaScript's error object -- only supported in newer browsers
@@ -255,8 +313,8 @@ var ASSERT = (function () {
     };
     
     return {
-        assert: function (condition, message) {
-            assert(condition, message);
+        assert: function (condition, func, message) {
+            assert(condition, func, message);
         }
     };
 }());
@@ -267,6 +325,8 @@ var ASSERT = (function () {
 ***********************************************************************************************************************/
 var AJAX = (function () {
     'use strict';
+    
+    var load404;
     
     /*******************************************************************************
     * mapPageName()
@@ -292,7 +352,23 @@ var AJAX = (function () {
         } else {
             return "404.html";
         }
-        
+    }
+    
+    /*******************************************************************************
+    * writeAjaxToURL()
+    *   - appends the ajaxed page to the url so the user can see / link
+    *******************************************************************************/
+    function writeAjaxToURL(pagePath) {
+        window.location.hash = pagePath;
+    }
+    
+    /*******************************************************************************
+    * writePathToTitle()
+    *   - writes the page name into the title
+    *******************************************************************************/
+    function writePathToTitle(pageName) {
+        var title = $("#pageTitle");
+        title.text(pageName);
     }
     
     /*******************************************************************************
@@ -303,10 +379,21 @@ var AJAX = (function () {
     function loadPage(pageName) {
         var pagePath = mapPageName(pageName),
             mainContentDiv = $(".mainContent");
-        mainContentDiv.load(pagePath, function () {
+        mainContentDiv.load(pagePath, function (response, status, xhr) {
+            ASSERT.assert(status === "success", load404, "Assertion failed on loading ajax: " + pagePath);
             RESPONSIVE.adjustSize({"extra": false}); // some strangeness was happening with the rightside header width, this resolves it
         });
+        writeAjaxToURL(pagePath);
+        writePathToTitle(pageName);
     }
+    
+    /*******************************************************************************
+    * load404()
+    *   - used as a callback in assert on failed loads, this will load the 404 page.
+    *******************************************************************************/
+    load404 = function () {
+        loadPage("404");
+    };
     
     /*******************************************************************************
     * attachToMenu()
@@ -314,7 +401,7 @@ var AJAX = (function () {
     *******************************************************************************/
     function attachToMenu() {
         //for each menu item, make on click use load Page
-        var menuItems = $(".menu-items .menu-item");
+        var menuItems = $(".menu-item");
         menuItems.each(function (menuItem) {
             var item = $(menuItems[menuItem]),
                 itemText = item.html();
