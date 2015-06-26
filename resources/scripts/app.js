@@ -95,6 +95,8 @@ var RESPONSIVE = (function () {
     function textResizer(params) {
         var eleSelector = params.ele || "",
             size = params.size || "",
+            sizeLimitMax = params.maxSize || "",
+            sizeLimitMin = params.minSize || "",
             parentWidth,
             ele,
             wordCount,
@@ -156,6 +158,13 @@ var RESPONSIVE = (function () {
                     }
                     
                     maxSize -= 3;
+                    
+                    if (maxSize > sizeLimitMax) {
+                        maxSize = sizeLimitMax;
+                    } else if (maxSize < sizeLimitMin) {
+                        maxSize = sizeLimitMin;
+                    }
+                    
                     return;
                 }
                 
@@ -186,6 +195,11 @@ var RESPONSIVE = (function () {
                 
                 testEle.remove();
                 
+                if (currentSize > sizeLimitMax) {
+                    currentSize = sizeLimitMax;
+                } else if (currentSize < sizeLimitMin) {
+                    currentSize = sizeLimitMin;
+                }
                 maxSize = currentSize;
             };
 
@@ -248,7 +262,7 @@ var RESPONSIVE = (function () {
             // do smaller settings
             rightSideEle.css("width", windowWidth + "px");
             mobileShow(true);
-            textResizer({"ele": "#pageTitle", "size": "full"});
+            textResizer({"ele": "#pageTitle", "size": "full", "maxSize": "80", "minSize": "12"});
             mobileMenuList.css("width", windowWidth + "px");
         } else {
             // do larger settings
