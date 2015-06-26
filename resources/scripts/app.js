@@ -31,18 +31,31 @@ $(window).resize(function () {
 });
 
 /***********************************************************************************************************************
+* EVENTS
+*   - an app to encapsulate all event binding and handling.
+***********************************************************************************************************************/
+var EVENTS = (function () {
+    'use strict';
+    var mobileMenuList = $("#mobileMenuList"),
+        mobileMenuPulldownTab = $("#mobileMenuPulldownTab"),
+        loginButton = $(".loginButton"),
+        loginDialog = $("#loginDialog");
+    mobileMenuPulldownTab.on("click", function () {
+        mobileMenuList.slideToggle(100);
+    });
+    loginButton.on("click", function () {
+        loginDialog.slideToggle(100);
+    });
+}());
+
+/***********************************************************************************************************************
 * RESPONSIVE
 *   - an app to hanldle window sizing.
 ***********************************************************************************************************************/
 var RESPONSIVE = (function () {
     'use strict';
     // responsive variables
-    var SMALL_BREAK_POINT = 768,
-        mobileMenuList = $("#mobileMenuList"),
-        mobileMenuPulldownTab = $("#mobileMenuPulldownTab");
-    mobileMenuPulldownTab.on("click", function () {
-        mobileMenuList.slideToggle(100);
-    });
+    var SMALL_BREAK_POINT = 768;
 
     /*******************************************************************************
     * mobileShow()
