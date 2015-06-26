@@ -28,6 +28,7 @@ $(function () {
     try {
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
+        AJAX.loadPage("Oakridge Country Club");
         AJAX.attachToMenu();
         //The following lines are examples of how to use the assert
 //        var x = 1;
@@ -335,6 +336,7 @@ var AJAX = (function () {
     *******************************************************************************/
     function mapPageName(pageName) {
         var pageNames = {
+            "oakridge country club": "home.html",
             "membership": "membership.html",
             "golf": "golf.html",
             "restaurant": "restaurant.html",
@@ -401,7 +403,8 @@ var AJAX = (function () {
     *******************************************************************************/
     function attachToMenu() {
         //for each menu item, make on click use load Page
-        var menuItems = $(".menu-item");
+        var menuItems = $(".menu-item"),
+            logo = $(".logo");
         menuItems.each(function (menuItem) {
             var item = $(menuItems[menuItem]),
                 itemText = item.html();
@@ -409,6 +412,10 @@ var AJAX = (function () {
                 loadPage(itemText);
             });
         });
+        logo.on("click", function () {
+            loadPage("Oakridge Country Club");
+        });
+        
     }
     
     return {
