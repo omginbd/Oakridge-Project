@@ -128,11 +128,7 @@ var RESPONSIVE = (function () {
                     // one word
                     maxSize = 12;
                     testWidth = testEle.text().width(maxSize + "px arial");
-                    console.log(testWidth);
-                    console.log(testEleWidth);
                     while (testWidth < testEleWidth) {
-                        console.log(testWidth);
-                        console.log(testEleWidth);
                         maxSize += 10;
                         testEle.css("font-size", maxSize + "px");
                         testWidth = testEle.text().width(maxSize + "px arial");
@@ -140,8 +136,6 @@ var RESPONSIVE = (function () {
                     maxSize -= 10;
                     
                     while (testWidth < testEleWidth) {
-                        console.log(testWidth);
-                        console.log(testEleWidth);
                         maxSize += 5;
                         testEle.css("font-size", maxSize + "px");
                         testWidth = testEle.text().width(maxSize + "px arial");
@@ -150,8 +144,6 @@ var RESPONSIVE = (function () {
                     maxSize -= 5;
                     
                     while (testWidth < testEleWidth) {
-                        console.log(testWidth);
-                        console.log(testEleWidth);
                         maxSize += 1;
                         testEle.css("font-size", maxSize + "px");
                         testWidth = testEle.text().width(maxSize + "px arial");
