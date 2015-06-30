@@ -1,8 +1,42 @@
-/*global $:false, jQuery:false, devel: true */
+/*global $:false, jQuery:false, devel: true, console:false */
 
 // global vars
 var RESPONSIVE,
-    ASSERT;
+    ASSERT,
+    AJAX;
+
+/***********************************************************************************************************************
+* width
+*   - add width property function to the String prototype so that strings can get their width
+*   - it's idiotic, but javascript struggles at getting the font something is using... so we have to pass it in
+***********************************************************************************************************************/
+String.prototype.width = function (params) {
+    'use strict';
+    var fontFamily = params.fontFamily || "arial",
+        fontSize = params.fontSize || "12px",
+        font,
+        ele,
+        width;
+    
+    console.log(fontSize);
+    
+    // add "px" if it doesn't already have it
+    if (fontSize.toString().indexOf("px") === -1) {
+        fontSize += "px";
+    }
+    
+    font = fontSize + " " + fontFamily;
+    
+    // create a temp element to gather the width
+    ele = $('<div>' + this + '</div>')
+            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': font})
+            .appendTo($('body'));
+    width = ele.width();
+
+    ele.remove();
+
+    return width;
+};
 
 /***********************************************************************************************************************
 * On Load
@@ -13,6 +47,8 @@ $(function () {
     try {
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
+        AJAX.loadPage("Oakridge Country Club");
+        AJAX.attachToMenu();
         //The following lines are examples of how to use the assert
 //        var x = 1;
 //        ASSERT.assert(x === 1);
@@ -91,10 +127,12 @@ var RESPONSIVE = (function () {
     function textResizer(params) {
         var eleSelector = params.ele || "",
             size = params.size || "",
-            parentWidth,
+            sizeLimitMax = params.maxSize || "",
+            sizeLimitMin = params.minSize || "",
             ele,
-            maxSize,
             desiredSize,
+            maxSize,
+            parentWidth,
             findParentWidth = function () {
                 if (ele) {
                     parentWidth = ele.parent().width();
@@ -105,45 +143,40 @@ var RESPONSIVE = (function () {
             },
             testForMaxSize = function () {
                 var testEle = ele.clone(),
-                    testEleHeight,
-                    testEleWidth = parseInt(ele.parent().css("width"), 10),
-                    testElePaddingLeft = parseInt(ele.parent().css("padding-left"), 10),
-                    testEleMarginLeft = parseInt(ele.parent().css("margin-left"), 10),
-                    testElePaddingRight = parseInt(ele.parent().css("padding-right"), 10),
-                    testEleMarginRight = parseInt(ele.parent().css("margin-right"), 10),
-                    previousTestEleHeight,
-                    done = false,
-                    currentSize = 1;
-                testEle.css("font-size", currentSize + "px");
-                testEle.css("position", "absolute");
-                testEle.css("z-index", "-1000"); // so the test element doesn't show
+                    eleParent = ele.parent(),
+                    eleWidth = parseInt(eleParent.css("width"), 10),
+                    eleMarginLeft = parseInt(eleParent.css("margin-left"), 10),
+                    eleMarginRight = parseInt(eleParent.css("margin-right"), 10),
+                    elePaddingLeft = parseInt(eleParent.css("padding-left"), 10),
+                    elePaddingRight = parseInt(eleParent.css("padding-right"), 10),
+                    eleCalculatedWidth = eleWidth - elePaddingLeft - elePaddingRight - eleMarginLeft - eleMarginRight,
+                    currentSize = 12,
+                    fontFamily = "arial",
+                    testWidth,
+                    inc;
                 
-                testEle.attr("id", "fontResizeTestElement");
-                $("body").append(testEle);
-                testEle = $("#fontResizeTestElement");
-                testEle.css("width", testEleWidth - testEleMarginLeft - testEleMarginRight - testElePaddingLeft -
-                            testElePaddingRight + "px");
-                testEleHeight = testEle.height();
-                
-                previousTestEleHeight = testEleHeight;
-                while (!done) {
+                // loop through and check increments (starting at 10) of the font size to see if they fit
+                for (inc = 10; inc !== 0; inc = Math.floor(inc / 2)) {
                     testEle.css("font-size", currentSize + "px");
-                    testEleHeight = testEle.height();
-                    if ((testEleHeight / 2) > previousTestEleHeight) {
-                        done = true;
-                        currentSize -= 1;
+                    testWidth = testEle.text().width({fontSize: currentSize, fontFamily: fontFamily});
+                    while (testWidth < eleCalculatedWidth) {
+                        currentSize += inc;
                         testEle.css("font-size", currentSize + "px");
-                    } else {
-                        currentSize += 1;
-                        previousTestEleHeight = testEleHeight;
+                        testWidth = testEle.text().width({fontSize: currentSize, fontFamily: fontFamily});
                     }
+                    currentSize -= inc;
                 }
                 
-                testEle.remove();
-                
+                // apply limiters
+                if (currentSize < sizeLimitMin) {
+                    currentSize = sizeLimitMin;
+                } else if (currentSize > sizeLimitMax) {
+                    currentSize = sizeLimitMax;
+                }
                 maxSize = currentSize;
             };
 
+        // check all parameters, find the maximum size that will fit, apply the correct size
         if (eleSelector) {
             ele = $(eleSelector);
             if (ele) {
@@ -203,7 +236,7 @@ var RESPONSIVE = (function () {
             // do smaller settings
             rightSideEle.css("width", windowWidth + "px");
             mobileShow(true);
-            textResizer({"ele": "#pageTitle", "size": "full"});
+            textResizer({"ele": "#pageTitle", "size": "full", "maxSize": "80", "minSize": "12"});
             mobileMenuList.css("width", windowWidth + "px");
         } else {
             // do larger settings
@@ -270,8 +303,11 @@ var RESPONSIVE = (function () {
 ***********************************************************************************************************************/
 var ASSERT = (function () {
     'use strict';
-    var assert = function (condition, message) {
+    var assert = function (condition, func, message) {
         if (!condition) {
+            if (func) {
+                func(); // execute the callback function if it's passed in
+            }
             message = message || "Assertion failed on: " + condition;
             if (typeof Error !== "undefined") {
                 throw new Error(message); // use JavaScript's error object -- only supported in newer browsers
@@ -281,8 +317,119 @@ var ASSERT = (function () {
     };
     
     return {
-        assert: function (condition, message) {
-            assert(condition, message);
+        assert: function (condition, func, message) {
+            assert(condition, func, message);
         }
     };
+}());
+
+/***********************************************************************************************************************
+* AJAX
+*   - an app to handle ajaxing pages when the user clicks in the navigation.
+***********************************************************************************************************************/
+var AJAX = (function () {
+    'use strict';
+    
+    var load404;
+    
+    /*******************************************************************************
+    * mapPageName()
+    *   - takes the string of the clicked item, and passes back the html page path
+    *       that it maps to
+    *******************************************************************************/
+    function mapPageName(pageName) {
+        var pageNames = {
+            "oakridge country club": "home.html",
+            "home": "home.html",
+            "membership": "membership.html",
+            "golf": "golf.html",
+            "restaurant": "restaurant.html",
+            "pool": "pool.html",
+            "pro shop": "proshop.html",
+            "business office": "businessoffice.html",
+            "clubhouse": "clubhouse.html",
+            "about / contact": "about-contact.html",
+            "login": "login.html",
+            "404": "404.html"
+        };
+        
+        // return the page if found, or return 404 page
+        if (pageNames[pageName.toLocaleLowerCase()]) {
+            return pageNames[pageName.toLocaleLowerCase()];
+        } else {
+            return "404.html";
+        }
+    }
+    
+    /*******************************************************************************
+    * writeAjaxToURL()
+    *   - appends the ajaxed page to the url so the user can see / link
+    *******************************************************************************/
+    function writeAjaxToURL(pagePath) {
+        window.location.hash = pagePath;
+    }
+    
+    /*******************************************************************************
+    * writePathToTitle()
+    *   - writes the page name into the title
+    *******************************************************************************/
+    function writePathToTitle(pageName) {
+        var title = $("#pageTitle");
+        title.text(pageName);
+    }
+    
+    /*******************************************************************************
+    * loadPage()
+    *   - takes a page name, uses mapPageName() to convert it to it's respective 
+    *       path, and loads that page into the main content div.
+    *******************************************************************************/
+    function loadPage(pageName) {
+        var pagePath = mapPageName(pageName),
+            mainContentDiv = $(".mainContent");
+        mainContentDiv.load(pagePath, function (response, status, xhr) {
+            ASSERT.assert(status === "success", load404, "Assertion failed on loading ajax: " + pagePath);
+            RESPONSIVE.adjustSize({"extra": false}); // some strangeness was happening with the rightside header width, this resolves it
+        });
+        writeAjaxToURL(pagePath);
+        writePathToTitle(pageName);
+    }
+    
+    /*******************************************************************************
+    * load404()
+    *   - used as a callback in assert on failed loads, this will load the 404 page.
+    *******************************************************************************/
+    load404 = function () {
+        loadPage("404");
+    };
+    
+    /*******************************************************************************
+    * attachToMenu()
+    *   - attaches on clicks to all the menu items so that they will do ajax
+    *******************************************************************************/
+    function attachToMenu() {
+        //for each menu item, make on click use load Page
+        var menuItems = $(".menu-item"),
+            logo = $(".logo");
+        menuItems.each(function (menuItem) {
+            var item = $(menuItems[menuItem]),
+                itemText = item.html();
+            item.on("click", function () {
+                loadPage(itemText);
+            });
+        });
+        logo.on("click", function () {
+            loadPage("Oakridge Country Club");
+        });
+        
+    }
+    
+    return {
+        loadPage: function (pageName) {
+            loadPage(pageName);
+        },
+        attachToMenu: function () {
+            attachToMenu();
+        }
+    };
+        
 }());
