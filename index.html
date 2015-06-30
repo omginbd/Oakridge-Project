@@ -40,15 +40,25 @@
                     <div class="row">
                         <a href="../Oakridge/index.html">
                             <div class="col-sm-10 col-xs-12">
-
                                 <h1 id="pageTitle">Oakridge Country Club</h1>
                             </div>
                         </a>
                         <div class="col-sm-2 col-xs-12">
-                            <button class="btn loginButton pull-right"><div class="buttonInner">Login</div></button>
+                            <button class="btn loginButton pull-right"><div class="buttonInner loginButtonInner">Login</div></button>
                         </div>
                     </div>
                 </header>
+            </div>
+            
+            <div id="loginDialog" style="display: none;">
+                <span id="loginDialogTitle">Enter your login credentials:</span>
+                <form id="loginDialogForm">
+                    <span id="loginDialogField1Title" class="loginDialogItem">Membership Number:</span>
+                    <input type="text" name="membershipNumber" class="loginDialogInput loginDialogItem">
+                    <span id="loginDialogField2Title" class="loginDialogItem">Password:</span>
+                    <input type="text" name="password" class="loginDialogInput loginDialogItem">
+                    <input type="submit" name="submit" class="loginDialogInputSubmit loginDialogItem">
+                </form>
             </div>
             
             <div id="mobileMenu">

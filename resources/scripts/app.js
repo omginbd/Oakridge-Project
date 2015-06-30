@@ -67,18 +67,31 @@ $(window).resize(function () {
 });
 
 /***********************************************************************************************************************
+* EVENTS
+*   - an app to encapsulate all event binding and handling.
+***********************************************************************************************************************/
+var EVENTS = (function () {
+    'use strict';
+    var mobileMenuList = $("#mobileMenuList"),
+        mobileMenuPulldownTab = $("#mobileMenuPulldownTab"),
+        loginButton = $(".loginButton"),
+        loginDialog = $("#loginDialog");
+    mobileMenuPulldownTab.on("click", function () {
+        mobileMenuList.slideToggle(100);
+    });
+    loginButton.on("click", function () {
+        loginDialog.slideToggle(100);
+    });
+}());
+
+/***********************************************************************************************************************
 * RESPONSIVE
 *   - an app to hanldle window sizing.
 ***********************************************************************************************************************/
 var RESPONSIVE = (function () {
     'use strict';
     // responsive variables
-    var SMALL_BREAK_POINT = 768,
-        mobileMenuList = $("#mobileMenuList"),
-        mobileMenuPulldownTab = $("#mobileMenuPulldownTab");
-    mobileMenuPulldownTab.on("click", function () {
-        mobileMenuList.slideToggle(100);
-    });
+    var SMALL_BREAK_POINT = 768;
 
     /*******************************************************************************
     * mobileShow()
@@ -247,12 +260,27 @@ var RESPONSIVE = (function () {
         // get all elements from main menu
         // paste them in mobile menu
         var allMenuItems = $(".menu-items a").clone(),
-            mobileMenuContainer = $("#mobileMenuList ul");
+            mobileMenuContainer = $("#mobileMenuList ul"),
+            loginButton = $(".loginButtonInner").clone(),
+            homeButton = $("<a href=\"#\"><div class=\"menu-item homeButton\">Home</div></a>");
+        
         mobileMenuContainer.empty();
+        
+        // create home button for mobile
+        mobileMenuContainer.append(homeButton);
+        
+        // loop through all the menu items and add them to the mobile menu
         allMenuItems.each(function (i, obj) {
             var ele = obj;
             mobileMenuContainer.append(ele);
         });
+        
+        // create login button for mobile
+        loginButton.addClass("menu-item mobileLogin");
+        loginButton.removeClass("buttonInner");
+        loginButton.show();
+        mobileMenuContainer.append(loginButton);
+        loginButton.wrap("<a href='#'></a>");
     }
     
     // return the functions that need public access
@@ -312,6 +340,7 @@ var AJAX = (function () {
     function mapPageName(pageName) {
         var pageNames = {
             "oakridge country club": "home.html",
+            "home": "home.html",
             "membership": "membership.html",
             "golf": "golf.html",
             "restaurant": "restaurant.html",
@@ -320,6 +349,7 @@ var AJAX = (function () {
             "business office": "businessoffice.html",
             "clubhouse": "clubhouse.html",
             "about / contact": "about-contact.html",
+            "login": "login.html",
             "404": "404.html"
         };
         
