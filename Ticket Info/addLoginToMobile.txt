@@ -1,0 +1,20 @@
+James Collier
+June 23, 2015
+addLoginToMobile
+
+The last item on the mobile menu should be a "login". It should be added via javascript in the buildMobileMenu() 
+function in app.js  It should look like all the other menu items.  It should have the same structure (e.g. 
+<a><div>login</div</a>) as the other menu items with the correct classes.  It should have an additional class 
+that the javascript can latch on to.
+
+Assigned to: omginbd
+
+Work Log:
+June 23rd, 2015
+    - created the ticket.
+    
+June 25th, 2015
+    - Did the do
+    
+June 30th, 2015
+    - adjusted and added home button as well.

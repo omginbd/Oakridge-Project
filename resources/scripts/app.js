@@ -227,12 +227,27 @@ var RESPONSIVE = (function () {
         // get all elements from main menu
         // paste them in mobile menu
         var allMenuItems = $(".menu-items a").clone(),
-            mobileMenuContainer = $("#mobileMenuList ul");
+            mobileMenuContainer = $("#mobileMenuList ul"),
+            loginButton = $(".loginButtonInner").clone(),
+            homeButton = $("<a href=\"#\"><div class=\"menu-item homeButton\">Home</div></a>");
+        
         mobileMenuContainer.empty();
+        
+        // create home button for mobile
+        mobileMenuContainer.append(homeButton);
+        
+        // loop through all the menu items and add them to the mobile menu
         allMenuItems.each(function (i, obj) {
             var ele = obj;
             mobileMenuContainer.append(ele);
         });
+        
+        // create login button for mobile
+        loginButton.addClass("menu-item mobileLogin");
+        loginButton.removeClass("buttonInner");
+        loginButton.show();
+        mobileMenuContainer.append(loginButton);
+        loginButton.wrap("<a href='#'></a>");
     }
     
     // return the functions that need public access
