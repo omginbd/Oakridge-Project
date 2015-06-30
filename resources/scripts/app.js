@@ -5,18 +5,37 @@ var RESPONSIVE,
     ASSERT,
     AJAX;
 
-// todo - this is copy pasta from stack overflow, if we decide to keep this, we should make it smarter.
-String.prototype.width = function (font) {
+/***********************************************************************************************************************
+* width
+*   - add width property function to the String prototype so that strings can get their width
+*   - it's idiotic, but javascript struggles at getting the font something is using... so we have to pass it in
+***********************************************************************************************************************/
+String.prototype.width = function (params) {
     'use strict';
-    var f = font || '12px arial',
-        o = $('<div>' + this + '</div>')
-            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
-            .appendTo($('body')),
-        w = o.width();
+    var fontFamily = params.fontFamily || "arial",
+        fontSize = params.fontSize || "12px",
+        font,
+        ele,
+        width;
+    
+    console.log(fontSize);
+    
+    // add "px" if it doesn't already have it
+    if (fontSize.toString().indexOf("px") === -1) {
+        fontSize += "px";
+    }
+    
+    font = fontSize + " " + fontFamily;
+    
+    // create a temp element to gather the width
+    ele = $('<div>' + this + '</div>')
+            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': font})
+            .appendTo($('body'));
+    width = ele.width();
 
-    o.remove();
+    ele.remove();
 
-    return w;
+    return width;
 };
 
 /***********************************************************************************************************************
@@ -126,11 +145,11 @@ var RESPONSIVE = (function () {
                 // loop through and check increments (starting at 10) of the font size to see if they fit
                 for (inc = 10; inc !== 0; inc = Math.floor(inc / 2)) {
                     testEle.css("font-size", currentSize + "px");
-                    testWidth = testEle.text().width(currentSize + "px " + fontFamily);
+                    testWidth = testEle.text().width({fontSize: currentSize, fontFamily: fontFamily});
                     while (testWidth < eleCalculatedWidth) {
                         currentSize += inc;
                         testEle.css("font-size", currentSize + "px");
-                        testWidth = testEle.text().width(currentSize + "px " + fontFamily);
+                        testWidth = testEle.text().width({fontSize: currentSize, fontFamily: fontFamily});
                     }
                     currentSize -= inc;
                 }
