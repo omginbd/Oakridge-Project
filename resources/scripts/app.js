@@ -1,4 +1,4 @@
-/*global $:false, jQuery:false, devel: true */
+/*global $:false, jQuery:false, devel: true, console:false */
 
 // global vars
 var RESPONSIVE,
@@ -97,11 +97,10 @@ var RESPONSIVE = (function () {
             size = params.size || "",
             sizeLimitMax = params.maxSize || "",
             sizeLimitMin = params.minSize || "",
-            parentWidth,
             ele,
-            wordCount,
-            maxSize,
             desiredSize,
+            maxSize,
+            parentWidth,
             findParentWidth = function () {
                 if (ele) {
                     parentWidth = ele.parent().width();
@@ -112,89 +111,40 @@ var RESPONSIVE = (function () {
             },
             testForMaxSize = function () {
                 var testEle = ele.clone(),
-                    testEleHeight,
-                    testEleWidth = parseInt(ele.parent().css("width"), 10),
-                    testElePaddingLeft = parseInt(ele.parent().css("padding-left"), 10),
-                    testEleMarginLeft = parseInt(ele.parent().css("margin-left"), 10),
-                    testElePaddingRight = parseInt(ele.parent().css("padding-right"), 10),
-                    testEleMarginRight = parseInt(ele.parent().css("margin-right"), 10),
-                    previousTestEleHeight,
-                    done = false,
-                    currentSize = 1,
-                    testWidth;
+                    eleParent = ele.parent(),
+                    eleWidth = parseInt(eleParent.css("width"), 10),
+                    eleMarginLeft = parseInt(eleParent.css("margin-left"), 10),
+                    eleMarginRight = parseInt(eleParent.css("margin-right"), 10),
+                    elePaddingLeft = parseInt(eleParent.css("padding-left"), 10),
+                    elePaddingRight = parseInt(eleParent.css("padding-right"), 10),
+                    eleCalculatedWidth = eleWidth - elePaddingLeft - elePaddingRight - eleMarginLeft - eleMarginRight,
+                    currentSize = 12,
+                    fontFamily = "arial",
+                    testWidth,
+                    inc;
                 
-                // todo - rework all of this, this is terrible
-                if (testEle.text().indexOf(" ") < 0) {
-                    // one word
-                    maxSize = 12;
-                    testWidth = testEle.text().width(maxSize + "px arial");
-                    while (testWidth < testEleWidth) {
-                        maxSize += 10;
-                        testEle.css("font-size", maxSize + "px");
-                        testWidth = testEle.text().width(maxSize + "px arial");
-                    }
-                    maxSize -= 10;
-                    
-                    while (testWidth < testEleWidth) {
-                        maxSize += 5;
-                        testEle.css("font-size", maxSize + "px");
-                        testWidth = testEle.text().width(maxSize + "px arial");
-                    }
-                    
-                    maxSize -= 5;
-                    
-                    while (testWidth < testEleWidth) {
-                        maxSize += 1;
-                        testEle.css("font-size", maxSize + "px");
-                        testWidth = testEle.text().width(maxSize + "px arial");
-                    }
-                    
-                    maxSize -= 3;
-                    
-                    if (maxSize > sizeLimitMax) {
-                        maxSize = sizeLimitMax;
-                    } else if (maxSize < sizeLimitMin) {
-                        maxSize = sizeLimitMin;
-                    }
-                    
-                    return;
-                }
-                
-                testEle.css("font-size", currentSize + "px");
-                testEle.css("position", "absolute");
-                testEle.css("z-index", "-1000"); // so the test element doesn't show
-                
-                testEle.attr("id", "fontResizeTestElement");
-                $("body").append(testEle);
-                testEle = $("#fontResizeTestElement");
-                testEle.css("width", testEleWidth - testEleMarginLeft - testEleMarginRight - testElePaddingLeft -
-                            testElePaddingRight + "px");
-                testEleHeight = testEle.height();
-                
-                previousTestEleHeight = testEleHeight;
-                while (!done) {
+                // loop through and check increments (starting at 10) of the font size to see if they fit
+                for (inc = 10; inc !== 0; inc = Math.floor(inc / 2)) {
                     testEle.css("font-size", currentSize + "px");
-                    testEleHeight = testEle.height();
-                    if ((testEleHeight / 2) > previousTestEleHeight) {
-                        done = true;
-                        currentSize -= 1;
+                    testWidth = testEle.text().width(currentSize + "px " + fontFamily);
+                    while (testWidth < eleCalculatedWidth) {
+                        currentSize += inc;
                         testEle.css("font-size", currentSize + "px");
-                    } else {
-                        currentSize += 1;
-                        previousTestEleHeight = testEleHeight;
+                        testWidth = testEle.text().width(currentSize + "px " + fontFamily);
                     }
+                    currentSize -= inc;
                 }
                 
-                testEle.remove();
-                
-                if (currentSize > sizeLimitMax) {
-                    currentSize = sizeLimitMax;
-                } else if (currentSize < sizeLimitMin) {
+                // apply limiters
+                if (currentSize < sizeLimitMin) {
                     currentSize = sizeLimitMin;
+                } else if (currentSize > sizeLimitMax) {
+                    currentSize = sizeLimitMax;
                 }
                 maxSize = currentSize;
             };
 
+        // check all parameters, find the maximum size that will fit, apply the correct size
         if (eleSelector) {
             ele = $(eleSelector);
             if (ele) {
