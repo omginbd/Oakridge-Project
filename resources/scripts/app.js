@@ -364,7 +364,8 @@ var AJAX = (function () {
     *   - appends the ajaxed page to the url so the user can see / link
     *******************************************************************************/
     function writeAjaxToURL(pagePath) {
-        window.location.hash = pagePath;
+        var adjustedPath = pagePath.replace(".html", "");
+        window.location.hash = adjustedPath;
     }
     
     /*******************************************************************************
