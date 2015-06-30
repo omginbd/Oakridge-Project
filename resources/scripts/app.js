@@ -1,4 +1,4 @@
-/*global $:false, jQuery:false, devel: true, console:false */
+/*global $:false, jQuery:false, devel: true */
 
 // global vars
 var RESPONSIVE,
@@ -17,8 +17,6 @@ String.prototype.width = function (params) {
         font,
         ele,
         width;
-    
-    console.log(fontSize);
     
     // add "px" if it doesn't already have it
     if (fontSize.toString().indexOf("px") === -1) {
