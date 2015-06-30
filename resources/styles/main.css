@@ -703,5 +703,29 @@
 .contentWell {
     padding: 0px !important;
     margin: 0px !important;
+}
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:focus {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus{
+    outline:none;
+    box-shadow:none;
+}
+
+.btn:active:focus .buttonInner{
+    background-color: #86aea5;
 }
