@@ -3,38 +3,9 @@
 // global vars
 var RESPONSIVE,
     ASSERT,
-    AJAX;
-
-/***********************************************************************************************************************
-* width
-*   - add width property function to the String prototype so that strings can get their width
-*   - it's idiotic, but javascript struggles at getting the font something is using... so we have to pass it in
-***********************************************************************************************************************/
-String.prototype.width = function (params) {
-    'use strict';
-    var fontFamily = params.fontFamily || "arial",
-        fontSize = params.fontSize || "12px",
-        font,
-        ele,
-        width;
-    
-    // add "px" if it doesn't already have it
-    if (fontSize.toString().indexOf("px") === -1) {
-        fontSize += "px";
-    }
-    
-    font = fontSize + " " + fontFamily;
-    
-    // create a temp element to gather the width
-    ele = $('<div>' + this + '</div>')
-            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': font})
-            .appendTo($('body'));
-    width = ele.width();
-
-    ele.remove();
-
-    return width;
-};
+    AJAX,
+    DEVTOOLS,
+    EVENTS;
 
 /***********************************************************************************************************************
 * On Load
@@ -43,6 +14,7 @@ String.prototype.width = function (params) {
 $(function () {
     'use strict';
     try {
+        DEVTOOLS.buidNumber();
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
         AJAX.loadPage("Oakridge Country Club");
@@ -73,13 +45,20 @@ var EVENTS = (function () {
     var mobileMenuList = $("#mobileMenuList"),
         mobileMenuPulldownTab = $("#mobileMenuPulldownTab"),
         loginButton = $(".loginButton"),
-        loginDialog = $("#loginDialog");
-    mobileMenuPulldownTab.on("click", function () {
-        mobileMenuList.slideToggle(100);
-    });
-    loginButton.on("click", function () {
-        loginDialog.slideToggle(100);
-    });
+        loginDialog = $("#loginDialog"),
+        attachEvents = function () {
+            mobileMenuPulldownTab.on("click", function () {
+                mobileMenuList.slideToggle(100);
+            });
+            loginButton.on("click", function () {
+                loginDialog.slideToggle(100);
+            });
+        };
+    return {
+        attachEvents: function () {
+            attachEvents();
+        }
+    };
 }());
 
 /***********************************************************************************************************************
@@ -89,7 +68,40 @@ var EVENTS = (function () {
 var RESPONSIVE = (function () {
     'use strict';
     // responsive variables
-    var SMALL_BREAK_POINT = 768;
+    var SMALL_BREAK_POINT = 768,
+        previousWindowWidth = $(window).width();
+    
+    /*******************************************************************************
+    * width
+    *   - add width property function to the String prototype so that strings can 
+    *       get their width
+    *   - it's idiotic, but javascript struggles at getting the font something is 
+    *       using... so we have to pass it in
+    *******************************************************************************/
+    String.prototype.width = function (params) {
+        var fontFamily = params.fontFamily || "arial",
+            fontSize = params.fontSize || "12px",
+            font,
+            ele,
+            width;
+
+        // add "px" if it doesn't already have it
+        if (fontSize.toString().indexOf("px") === -1) {
+            fontSize += "px";
+        }
+
+        font = fontSize + " " + fontFamily;
+
+        // create a temp element to gather the width
+        ele = $('<div>' + this + '</div>')
+                .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': font})
+                .appendTo($('body'));
+        width = ele.width();
+
+        ele.remove();
+
+        return width;
+    };
 
     /*******************************************************************************
     * mobileShow()
@@ -100,9 +112,9 @@ var RESPONSIVE = (function () {
             mobileMenuList = $("#mobileMenuList"),
             nav = $('nav'),
             loginButton = $(".loginButton");
+
         if (pShow) {
             mobileMenu.show();
-            mobileMenuList.hide();
             nav.hide();
             loginButton.hide();
         } else {
@@ -258,7 +270,8 @@ var RESPONSIVE = (function () {
         // get all elements from main menu
         // paste them in mobile menu
         var allMenuItems = $(".menu-items a").clone(),
-            mobileMenuContainer = $("#mobileMenuList ul"),
+            mobileMenuList = $("#mobileMenuList"),
+            mobileMenuContainer = mobileMenuList.find("ul"),
             loginButton = $(".loginButtonInner").clone(),
             homeButton = $("<a href=\"#\"><div class=\"menu-item homeButton\">Home</div></a>");
         
@@ -279,6 +292,9 @@ var RESPONSIVE = (function () {
         loginButton.show();
         mobileMenuContainer.append(loginButton);
         loginButton.wrap("<a href='#'></a>");
+        
+        // hide the list
+        mobileMenuList.hide();
     }
     
     // return the functions that need public access
@@ -411,12 +427,14 @@ var AJAX = (function () {
     function attachToMenu() {
         //for each menu item, make on click use load Page
         var menuItems = $(".menu-item"),
+            mobileMenuList = $("#mobileMenuList"),
             logo = $(".logo");
         menuItems.each(function (menuItem) {
             var item = $(menuItems[menuItem]),
                 itemText = item.html();
             item.on("click", function () {
                 loadPage(itemText);
+                mobileMenuList.hide();
             });
         });
         logo.on("click", function () {
@@ -434,4 +452,46 @@ var AJAX = (function () {
         }
     };
         
+}());
+
+/***********************************************************************************************************************
+* DEVTOOLS
+*   - an app to encapsulate all the dev tools
+***********************************************************************************************************************/
+var DEVTOOLS = (function () {
+    'use strict';
+    
+    var buidNumber = function () {
+        var BUILD = "1",
+            body = $("body"),
+            keys = "",
+            buildObj = $("<h1 class=\"BUILD\" style=\"position: absolute; bottom: 0; right: 0;\">Build #" + BUILD + "</h1>");
+
+        body.on("keydown", function (e) {
+            var keycode = e.keyCode,
+                key = String.fromCharCode(keycode),
+                esc = 27,
+                back = 8;
+
+            if (keycode === esc) {
+                keys = ""; // clear the stored keys
+                body.find(buildObj).remove();
+            } else if (keycode === back) {
+                keys = keys.substring(0, keys.length - 1);
+            } else {
+                keys += key; // add a key
+            }
+
+            // check for match
+            if (keys === "BUILD") {
+                body.append(buildObj);
+            }
+        });
+    };
+    
+    return {
+        buidNumber: function () {
+            buidNumber();
+        }
+    };
 }());

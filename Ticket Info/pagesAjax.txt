@@ -9,3 +9,6 @@ Assigned to: _____
 Work Log:
 June 23rd, 2015
     - created the ticket.
+    
+June 30th, 2015
+    - base dev work for ajaxing.  pages added, code to load, and code to write out to url.
