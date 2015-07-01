@@ -19,6 +19,7 @@ $(function () {
         RESPONSIVE.buildMobileMenu();
         AJAX.loadPage("Oakridge Country Club");
         AJAX.attachToMenu();
+        EVENTS.attachDefaultEvents();
         //The following lines are examples of how to use the assert
 //        var x = 1;
 //        ASSERT.assert(x === 1);
@@ -46,17 +47,34 @@ var EVENTS = (function () {
         mobileMenuPulldownTab = $("#mobileMenuPulldownTab"),
         loginButton = $(".loginButton"),
         loginDialog = $("#loginDialog"),
-        attachEvents = function () {
+        attachDefaultEvents = function () {
             mobileMenuPulldownTab.on("click", function () {
                 mobileMenuList.slideToggle(100);
             });
             loginButton.on("click", function () {
                 loginDialog.slideToggle(100);
             });
+        },
+        attachMobileHeaderEvent = function (params) {
+            var mobile = params.mobile || false,
+                headerWell = $(".headerWell");
+            if (mobile) {
+                if (!headerWell.hasClass("mobile-bind")) {
+                    headerWell.addClass("mobile-bind clickable");
+                    headerWell.on("click", function () {
+                        mobileMenuList.slideToggle(100);
+                    });
+                }
+            } else {
+                headerWell.off("click").removeClass("mobile-bind clickable");
+            }
         };
     return {
-        attachEvents: function () {
-            attachEvents();
+        attachDefaultEvents: function () {
+            attachDefaultEvents();
+        },
+        attachMobileHeaderEvent: function (params) {
+            attachMobileHeaderEvent(params);
         }
     };
 }());
@@ -115,9 +133,11 @@ var RESPONSIVE = (function () {
 
         if (pShow) {
             mobileMenu.show();
+            EVENTS.attachMobileHeaderEvent({"mobile": true});
             nav.hide();
             loginButton.hide();
         } else {
+            EVENTS.attachMobileHeaderEvent({"mobile": false});
             mobileMenu.hide();
             mobileMenuList.hide();
             nav.show();
