@@ -770,3 +770,7 @@ a:active {
     padding: 1px 5px 2px;
     border: 1px outset buttonface;
 }
+
+.clickable:hover {
+    cursor: pointer;
+}
