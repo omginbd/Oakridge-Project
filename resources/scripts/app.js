@@ -14,17 +14,17 @@ var RESPONSIVE,
 $(function () {
     'use strict';
     try {
-        DEVTOOLS.buidNumber();
+        DEVTOOLS.attachDevTools();
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
         AJAX.loadPage("Oakridge Country Club");
         AJAX.attachToMenu();
         EVENTS.attachDefaultEvents();
         //The following lines are examples of how to use the assert
-//        var x = 1;
-//        ASSERT.assert(x === 1);
+        var x = 1;
+        ASSERT.assert(x === 2);
     } catch (e) {
-        console.error(e);
+        DEVTOOLS.addToErrorLog(e.name);
     }
 });
 
@@ -481,37 +481,110 @@ var AJAX = (function () {
 var DEVTOOLS = (function () {
     'use strict';
     
-    var buidNumber = function () {
-        var BUILD = "1",
-            body = $("body"),
-            keys = "",
-            buildObj = $("<h1 class=\"BUILD\" style=\"position: absolute; bottom: 0; right: 0;\">Build #" + BUILD + "</h1>");
-
+    var addToErrorLog,
+        attachDevTools,
+        body = $("body"),
+        BUILD = "0.01",
+        buildObj = $("<h1 class=\"BUILD DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">Build #" + BUILD + "</h1>"),
+        clearErrorLog,
+        displayErrorLog,
+        errorLogFront = "<h1 class=\"LOG DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">",
+        errorLog,
+        errorLogBack = "</h1>",
+        execute,
+        keys = "",
+        keyCapture;
+    
+    /*******************************************************************************
+    * displayErrorLog()
+    *   - prints the error log to the page
+    *******************************************************************************/
+    displayErrorLog = function () {
+        body.append(errorLogFront + errorLog + errorLogBack);
+    };
+    
+    /*******************************************************************************
+    * clearErrorLog()
+    *   - clears what is in the current error log
+    *******************************************************************************/
+    clearErrorLog = function () {
+        errorLog = "";
+    };
+    
+    /*******************************************************************************
+    * addToErrorLog()
+    *   - adds an error to the error log
+    *******************************************************************************/
+    addToErrorLog = function (error) {
+        var errorString = "<div>" + error + "</div>";
+        errorLog += errorString;
+    };
+    
+    /*******************************************************************************
+    * attachDevTools()
+    *   - attaches the on(click) to the page to allow access to dev tools
+    *******************************************************************************/
+    attachDevTools = function () {
         body.on("keydown", function (e) {
-            var keycode = e.keyCode,
-                key = String.fromCharCode(keycode),
-                esc = 27,
-                back = 8;
-
-            if (keycode === esc) {
-                keys = ""; // clear the stored keys
-                body.find(buildObj).remove();
-            } else if (keycode === back) {
-                keys = keys.substring(0, keys.length - 1);
-            } else {
-                keys += key; // add a key
-            }
-
-            // check for match
-            if (keys === "BUILD") {
-                body.append(buildObj);
-            }
+            keyCapture(e);
         });
     };
     
-    return {
-        buidNumber: function () {
-            buidNumber();
+    /*******************************************************************************
+    * keyCapture()
+    *   - takes the event and determines the letter that was pressed, calls execute()
+    *******************************************************************************/
+    keyCapture = function (e) {
+        var back = 8,
+            esc = 27,
+            keycode = e.keyCode,
+            key = String.fromCharCode(keycode);
+
+        if (keycode === esc) {
+            keys = ""; // clear the stored keys
+        } else if (keycode === back) {
+            keys = keys.substring(0, keys.length - 1);
+        } else {
+            keys += key; // add a key
         }
+
+        execute();
+    };
+    
+    /*******************************************************************************
+    * execute()
+    *   - If the correct keys have been pressed, execute the appropriate command
+    *******************************************************************************/
+    execute = function () {
+        var build = "BUILD",
+            log = "LOG",
+            deleteLog = "DELETE";
+        
+        // check for match
+        if (keys === build) {
+            body.append(buildObj);
+            keys = "";
+        } else if (keys === log) {
+            displayErrorLog();
+            keys = "";
+        } else if (keys === deleteLog) {
+            clearErrorLog();
+            keys = "";
+        } else if (keys === "") {
+            $(".DEVTOOLS").each(function (i, obj) {
+                obj.remove();
+            });
+            keys = "";
+        }
+    };
+    
+    return {
+        addToErrorLog: function (error) {
+            addToErrorLog(error);
+        },
+        attachDevTools: function () {
+            attachDevTools();
+        }
+        
     };
 }());
