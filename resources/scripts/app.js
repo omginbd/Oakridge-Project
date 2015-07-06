@@ -22,9 +22,9 @@ $(function () {
         EVENTS.attachDefaultEvents();
         //The following lines are examples of how to use the assert
         var x = 1;
-        ASSERT.assert(x === 2);
+        ASSERT.assert(x === 2, "", "2 doesn't equal 1");
     } catch (e) {
-        DEVTOOLS.addToErrorLog(e.name);
+        DEVTOOLS.addToErrorLog(e);
     }
 });
 
@@ -254,7 +254,7 @@ var RESPONSIVE = (function () {
             rightSideEle = $("#rightSide"),
             mobileMenuList = $("#mobileMenuList"),
             rightSideHeight,
-            extra = params.extra;
+            extra = params.extra || false;
         
         windowWidthAdjusted = windowWidth;
         rightSideHeight = rightSideEle.height(); // get current window width
@@ -344,8 +344,10 @@ var ASSERT = (function () {
             }
             message = message || "Assertion failed on: " + condition;
             if (typeof Error !== "undefined") {
+                console.log("error object");
                 throw new Error(message); // use JavaScript's error object -- only supported in newer browsers
             }
+            console.log("fallback error");
             throw message; // fallback
         }
     };
@@ -516,6 +518,7 @@ var DEVTOOLS = (function () {
     *   - adds an error to the error log
     *******************************************************************************/
     addToErrorLog = function (error) {
+        console.log(error);
         var errorString = "<div>" + error + "</div>";
         errorLog += errorString;
     };
