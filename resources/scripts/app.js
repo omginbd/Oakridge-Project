@@ -24,7 +24,7 @@ $(function () {
         var x = 1;
         ASSERT.assert(x === 2, "", "2 doesn't equal 1");
     } catch (e) {
-        DEVTOOLS.addToErrorLog(e);
+        DEVTOOLS.addToErrorLog(e.stack);
     }
 });
 
@@ -344,10 +344,8 @@ var ASSERT = (function () {
             }
             message = message || "Assertion failed on: " + condition;
             if (typeof Error !== "undefined") {
-                console.log("error object");
                 throw new Error(message); // use JavaScript's error object -- only supported in newer browsers
             }
-            console.log("fallback error");
             throw message; // fallback
         }
     };
@@ -487,10 +485,10 @@ var DEVTOOLS = (function () {
         attachDevTools,
         body = $("body"),
         BUILD = "0.01",
-        buildObj = $("<h1 class=\"BUILD DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">Build #" + BUILD + "</h1>"),
+        buildObj = $("<h1 class=\"BUILD DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0; background-color: red;\">Build #" + BUILD + "</h1>"),
         clearErrorLog,
         displayErrorLog,
-        errorLogFront = "<h1 class=\"LOG DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">",
+        errorLogFront = "<h1 class=\"LOG DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0; background-color: red;\">",
         errorLog,
         errorLogBack = "</h1>",
         execute,
@@ -518,7 +516,6 @@ var DEVTOOLS = (function () {
     *   - adds an error to the error log
     *******************************************************************************/
     addToErrorLog = function (error) {
-        console.log(error);
         var errorString = "<div>" + error + "</div>";
         errorLog += errorString;
     };
