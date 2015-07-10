@@ -1,41 +1,3 @@
-    <style> 
-        .captionOrange, .captionBlack
-        {
-            color: #fff;
-            font-size: 20px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 4px;
-        }
-        .captionOrange
-        {
-            background: #EB5100;
-            background-color: rgba(235, 81, 0, 0.6);
-        }
-        .captionBlack
-        {
-        	font-size:16px;
-            background: #000;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        a.captionOrange, A.captionOrange:active, A.captionOrange:visited
-        {
-        	color: #ffffff;
-        	text-decoration: none;
-        }
-        a.captionOrange:hover
-        {
-            color: #eb5100;
-            text-decoration: underline;
-            background-color: #eeeeee;
-            background-color: rgba(238, 238, 238, 0.7);
-        }
-        .bricon
-        {
-            background: url(../img/browser-icons.png);
-        }
-    </style>
-    
     <script>
         jQuery(document).ready(function ($) {
             //Reference http://www.jssor.com/development/slider-with-slideshow-jquery.html
@@ -257,40 +219,6 @@
             </div>
         </div> 
  
-        <!--#region Bullet Navigator Skin Begin -->
-        <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
-        <style>
-            /* jssor slider bullet navigator skin 03 css */
-            /*
-            .jssorb03 div           (normal)
-            .jssorb03 div:hover     (normal mouseover)
-            .jssorb03 .av           (active)
-            .jssorb03 .av:hover     (active mouseover)
-            .jssorb03 .dn           (mousedown)
-            */
-            .jssorb03 {
-                position: absolute;
-            }
-            .jssorb03 div, .jssorb03 div:hover, .jssorb03 .av {
-                position: absolute;
-                /* size of bullet elment */
-                width: 36px;
-                height: 36px;
-                text-align: center;
-                color: white;
-                font-size: 24px;
-                background: url(resources/images/out.png) no-repeat;
-                background-size: cover;
-                overflow: hidden;
-                cursor: pointer;
-            }
-            .jssorb03 div:hover, .jssorb03 .av:hover { background: url(resources/images/over.png) no-repeat;
-                background-size: cover; }
-            .jssorb03 .av { background: url(resources/images/selected.png) no-repeat;
-                background-size: cover; }
-            .jssorb03 .dn, .jssorb03 .dn:hover { background: url(resources/images/press.png) no-repeat;
-                background-size: cover; }
-        </style>
         <!-- bullet navigator container -->
         <div u="navigator" class="jssorb03" style="bottom: 16px; right: 6px;">
             <!-- bullet navigator item prototype -->
@@ -298,35 +226,6 @@
         </div>
         <!--#endregion Bullet Navigator Skin End -->
         
-        <!--#region Arrow Navigator Skin Begin -->
-        <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
-        <style>
-            /* jssor slider arrow navigator skin 20 css */
-            /*
-            .jssora20l                  (normal)
-            .jssora20r                  (normal)
-            .jssora20l:hover            (normal mouseover)
-            .jssora20r:hover            (normal mouseover)
-            .jssora20l.jssora20ldn      (mousedown)
-            .jssora20r.jssora20rdn      (mousedown)
-            */
-            .jssora20l, .jssora20r {
-                display: block;
-                position: absolute;
-                /* size of arrow element */
-                width: 55px;
-                height: 55px;
-                cursor: pointer;
-                background: url(resources/images/a20.png) no-repeat;
-                overflow: hidden;
-            }
-            .jssora20l { background-position: -3px -33px; }
-            .jssora20r { background-position: -63px -33px; }
-            .jssora20l:hover { background-position: -123px -33px; }
-            .jssora20r:hover { background-position: -183px -33px; }
-            .jssora20l.jssora20ldn { background-position: -243px -33px; }
-            .jssora20r.jssora20rdn { background-position: -303px -33px; }
-        </style>
         <!-- Arrow Left -->
         <span u="arrowleft" class="jssora20l" style="top: 123px; left: 8px;">
         </span>
