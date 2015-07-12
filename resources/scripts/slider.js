@@ -1,4 +1,6 @@
+/*global $:false, jQuery:false, devel: true */
 jQuery(document).ready(function ($) {
+    'use strict';
     //Reference http://www.jssor.com/development/slider-with-slideshow-jquery.html
     //Reference http://www.jssor.com/development/tool-slideshow-transition-viewer.html
 
