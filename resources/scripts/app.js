@@ -426,9 +426,11 @@ var AJAX = (function () {
     function loadPage(pageName) {
         var pagePath = mapPageName(pageName),
             mobileMenu = $("#mobileMenu"),
-            mainContentDiv = $(".mainContent");
+            mainContentDiv = $(".mainContent"),
+            loginDialog = $("#loginDialog");
         mainContentDiv.empty();
         mobileMenu.hide();
+        loginDialog.hide();
         mainContentDiv.load(pagePath, function (response, status, xhr) {
             ASSERT.assert(status === "success", load404, "Assertion failed on loading ajax: " + pagePath);
             RESPONSIVE.adjustSize({"extra": false}); // some strangeness was happening with the rightside header width, this resolves it
