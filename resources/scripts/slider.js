@@ -170,7 +170,7 @@ jQuery(document).ready(function ($) {
             totalWidth = parentWidth - paddingLeft - paddingRight;
 
         if (totalWidth)
-            jssor_slider1.$ScaleWidth(Math.max(Math.min(totalWidth, 980), 250));
+            jssor_slider1.$ScaleWidth(Math.max(Math.min(totalWidth, 1440), 250));
         else
             window.setTimeout(ScaleSlider, 30);
     }

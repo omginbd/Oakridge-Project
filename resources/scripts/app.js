@@ -372,6 +372,7 @@ var AJAX = (function () {
     *       that it maps to
     *******************************************************************************/
     function mapPageName(pageName) {
+        // Todo, This is horrible, this should be written out to file so they can easily change it
         var pageNames = {
             "oakridge country club": "home.html",
             "home": "home.html",
@@ -409,6 +410,10 @@ var AJAX = (function () {
     *   - writes the page name into the title
     *******************************************************************************/
     function writePathToTitle(pageName) {
+        // todo, this is horrible.  This should be written out to a file so they can easily change it
+        if (pageName.toLocaleLowerCase() === "home") {
+            pageName = "Oakridge Country Club";
+        }
         var title = $("#pageTitle");
         title.text(pageName);
     }

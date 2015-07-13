@@ -73,3 +73,7 @@ a.captionOrange:hover
 .jssora20r:hover { background-position: -183px -33px; }
 .jssora20l.jssora20ldn { background-position: -243px -33px; }
 .jssora20r.jssora20rdn { background-position: -303px -33px; }
+
+#slider1_container {
+    margin-bottom: 15px;
+}

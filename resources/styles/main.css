@@ -777,3 +777,20 @@ a:active {
 .clickable:hover {
     cursor: pointer;
 }
+
+#loginDialogForgotPassword {
+    display: inline;
+    float: right;
+    margin-top: 6px;
+    color: blue;
+    font-size: 11px;
+}
+
+#loginDialogForgotPassword:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#loginDialogField2Title {
+    display: inline;
+}
