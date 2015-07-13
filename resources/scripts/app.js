@@ -385,7 +385,8 @@ var AJAX = (function () {
             "clubhouse": "clubhouse.html",
             "about / contact": "about-contact.html",
             "login": "login.html",
-            "404": "404.html"
+            "404": "404.html",
+            "events": "events.html"
         };
         
         // return the page if found, or return 404 page

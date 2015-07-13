@@ -31,7 +31,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -165,6 +166,7 @@
         margin-top: 0px;
         font-size: 48px;
         color: #6c6c6c;
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -299,7 +301,8 @@
         margin-bottom: 5px;
         font-size: 28px;
         font-weight: 600;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -420,7 +423,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -571,7 +575,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -672,7 +677,7 @@
     
     #mobileMenuList ul {    
         margin: 0px;
-        padding: 0px;
+            padding: 0px;
         list-style: none;
     }
     
