@@ -17,7 +17,8 @@ $(function () {
         DEVTOOLS.attachDevTools();
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
-        AJAX.loadPage("Oakridge Country Club");
+        AJAX.initialPageLoad();
+        //AJAX.loadPage("Oakridge Country Club");
         AJAX.attachToMenu();
         EVENTS.attachDefaultEvents();
         //The following lines are examples of how to use the assert
@@ -298,7 +299,7 @@ var RESPONSIVE = (function () {
         mobileMenuContainer.empty();
         
         // create home button for mobile
-        mobileMenuContainer.append(homeButton);
+        // mobileMenuContainer.append(homeButton);
         
         // loop through all the menu items and add them to the mobile menu
         allMenuItems.each(function (i, obj) {
@@ -383,10 +384,11 @@ var AJAX = (function () {
             "pro shop": "proshop.html",
             "business office": "businessoffice.html",
             "clubhouse": "clubhouse.html",
-            "about / contact": "about-contact.html",
+            "contact": "contact.html",
             "login": "login.html",
             "404": "404.html",
-            "events": "events.html"
+            "events": "events.html",
+            "club history": "home.html"
         };
         
         // return the page if found, or return 404 page
@@ -414,9 +416,19 @@ var AJAX = (function () {
         // todo, this is horrible.  This should be written out to a file so they can easily change it
         if (pageName.toLocaleLowerCase() === "home") {
             pageName = "Oakridge Country Club";
+        } else if (pageName.toLocaleLowerCase() === "club history") {
+            pageName = "Oakridge Country Club";
         }
         var title = $("#pageTitle");
         title.text(pageName);
+    }
+    
+    /*******************************************************************************
+    * getPageToLoad()
+    *   - Assist page load to open the linked hash
+    *******************************************************************************/
+    function getPageToLoad() {
+        return window.location.hash;
     }
     
     /*******************************************************************************
@@ -449,6 +461,19 @@ var AJAX = (function () {
     };
     
     /*******************************************************************************
+    * initialPageLoad()
+    *   - Assist page load to open the linked hash
+    *******************************************************************************/
+    function initialPageLoad() {
+        var hash = getPageToLoad();
+        if (hash === "") {
+            hash = "home";
+        }
+        hash = hash.replace("#", "");
+        loadPage(hash);
+    }
+    
+    /*******************************************************************************
     * attachToMenu()
     *   - attaches on clicks to all the menu items so that they will do ajax
     *******************************************************************************/
@@ -477,6 +502,9 @@ var AJAX = (function () {
         },
         attachToMenu: function () {
             attachToMenu();
+        },
+        initialPageLoad: function () {
+            initialPageLoad();
         }
     };
         
