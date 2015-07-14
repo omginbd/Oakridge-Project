@@ -18,7 +18,6 @@
     }
 
     .side-nav {
-        background-color: #d0d0d0;
         padding: 8px;
         margin: 8px;
     }
@@ -31,7 +30,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -45,6 +45,7 @@
     
     .menu-item:hover{
         background-color: #02735a;
+        cursor: pointer;
     }
     
     a{
@@ -149,7 +150,6 @@
     }
 
     .side-nav {
-        background-color: #d0d0d0;
         padding: 8px;
         margin: 8px;
     }
@@ -164,6 +164,7 @@
         margin-top: 0px;
         font-size: 48px;
         color: #6c6c6c;
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -177,6 +178,7 @@
     
     .menu-item:hover{
         background-color: #02735a;
+        cursor: pointer;
     }
     
     a{
@@ -266,7 +268,7 @@
     body{background-color:white;}
     
     .navbar {
-        width: 190px;
+        width: 190px; 
         height: 100vh;
         border-radius: 0px;
         padding: 0px;
@@ -281,7 +283,6 @@
     }
 
     .side-nav {
-        background-color: #d0d0d0;
         padding: 8px;
         margin: 8px;
     }
@@ -297,7 +298,8 @@
         margin-bottom: 5px;
         font-size: 28px;
         font-weight: 600;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -311,6 +313,7 @@
     
     .menu-item:hover{
         background-color: #02735a;
+        cursor: pointer;
     }
     
     a{
@@ -417,7 +420,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -431,6 +435,7 @@
     
     .menu-item:hover{
         background-color: #02735a;
+        cursor: pointer;
     }
     
     a{
@@ -486,10 +491,10 @@
     }
 
     .mainContent {
-        margin: 10px;
+        margin: 0px;
         padding: 15px 15px;
         border-radius: 0px;
-        background-color: #eaeaea;
+        background-color: none;
     }
 
     p {
@@ -567,7 +572,8 @@
     
     .menuTitle h2{
         font-size: 48px;
-        color: #6c6c6c;
+        color: #6c6c6c; 
+        font-family: "Georgia", serif;
     }
 
     .menu-item {
@@ -581,6 +587,7 @@
     
     .menu-item:hover{
         background-color: #02735a;
+        cursor: pointer;
     }
     
     a{
@@ -637,10 +644,10 @@
     }
 
     .mainContent {
-        margin: 10px;
+        margin: 0px;
         padding: 10px 10px;
         border-radius: 0px;
-        background-color: #eaeaea;
+        background-color: none;
     }
 
     p {
@@ -667,7 +674,7 @@
     
     #mobileMenuList ul {    
         margin: 0px;
-        padding: 0px;
+            padding: 0px;
         list-style: none;
     }
     
@@ -732,12 +739,13 @@ a:active {
 
 #loginDialog {
     position: absolute;
+    z-index: 10;
     right: 0;
     background-color: #EEE;
     padding: 20px;
     border: 3px solid #CCC;
     border-radius: 3px;
-    box-shadow: -2px 2px 15px #BBB;
+    box-shadow: -2px 2px 15px #444;
 }
 
 .loginDialogItem {
@@ -750,10 +758,7 @@ a:active {
     padding-bottom: 6px;
 }
 
-#loginDialogForm {
-    border-top: 2px solid #333;
-    padding-top: 12px;
-}
+
 
 .loginDialogInput {
     margin-bottom: 8px;
@@ -773,4 +778,43 @@ a:active {
 
 .clickable:hover {
     cursor: pointer;
+}
+
+#loginDialogForgotPassword {
+    display: inline;
+    float: right;
+    margin-top: 6px;
+    color: blue;
+    font-size: 11px;
+}
+
+#loginDialogForgotPassword:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#loginDialogField2Title {
+    display: inline;
+}
+
+.menuList {
+    list-style: none;
+}
+
+.menuList a {
+    color: blue;
+}
+
+.menuList a:hover {
+    text-decoration: underline;
+}
+
+#restaurantPage h3 {
+    margin-top: 30px;
+    font-weight: 400;
+}
+
+#restaurantPage h4 {
+    margin-left: 20px;
+    font-weight: 200;
 }

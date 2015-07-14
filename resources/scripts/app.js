@@ -17,14 +17,15 @@ $(function () {
         DEVTOOLS.attachDevTools();
         RESPONSIVE.adjustSize({"extra": true});
         RESPONSIVE.buildMobileMenu();
-        AJAX.loadPage("Oakridge Country Club");
+        AJAX.initialPageLoad();
+        //AJAX.loadPage("Oakridge Country Club");
         AJAX.attachToMenu();
         EVENTS.attachDefaultEvents();
         //The following lines are examples of how to use the assert
         var x = 1;
         ASSERT.assert(x === 2, "", "2 doesn't equal 1");
     } catch (e) {
-        DEVTOOLS.addToErrorLog(e);
+        DEVTOOLS.addToErrorLog(e.stack);
     }
 });
 
@@ -298,7 +299,7 @@ var RESPONSIVE = (function () {
         mobileMenuContainer.empty();
         
         // create home button for mobile
-        mobileMenuContainer.append(homeButton);
+        // mobileMenuContainer.append(homeButton);
         
         // loop through all the menu items and add them to the mobile menu
         allMenuItems.each(function (i, obj) {
@@ -344,10 +345,8 @@ var ASSERT = (function () {
             }
             message = message || "Assertion failed on: " + condition;
             if (typeof Error !== "undefined") {
-                console.log("error object");
                 throw new Error(message); // use JavaScript's error object -- only supported in newer browsers
             }
-            console.log("fallback error");
             throw message; // fallback
         }
     };
@@ -374,6 +373,7 @@ var AJAX = (function () {
     *       that it maps to
     *******************************************************************************/
     function mapPageName(pageName) {
+        // Todo, This is horrible, this should be written out to file so they can easily change it
         var pageNames = {
             "oakridge country club": "home.html",
             "home": "home.html",
@@ -384,9 +384,11 @@ var AJAX = (function () {
             "pro shop": "proshop.html",
             "business office": "businessoffice.html",
             "clubhouse": "clubhouse.html",
-            "about / contact": "about-contact.html",
+            "contact": "contact.html",
             "login": "login.html",
-            "404": "404.html"
+            "404": "404.html",
+            "events": "events.html",
+            "club history": "home.html"
         };
         
         // return the page if found, or return 404 page
@@ -411,8 +413,22 @@ var AJAX = (function () {
     *   - writes the page name into the title
     *******************************************************************************/
     function writePathToTitle(pageName) {
+        // todo, this is horrible.  This should be written out to a file so they can easily change it
+        if (pageName.toLocaleLowerCase() === "home") {
+            pageName = "Oakridge Country Club";
+        } else if (pageName.toLocaleLowerCase() === "club history") {
+            pageName = "Oakridge Country Club";
+        }
         var title = $("#pageTitle");
         title.text(pageName);
+    }
+    
+    /*******************************************************************************
+    * getPageToLoad()
+    *   - Assist page load to open the linked hash
+    *******************************************************************************/
+    function getPageToLoad() {
+        return window.location.hash;
     }
     
     /*******************************************************************************
@@ -423,9 +439,11 @@ var AJAX = (function () {
     function loadPage(pageName) {
         var pagePath = mapPageName(pageName),
             mobileMenu = $("#mobileMenu"),
-            mainContentDiv = $(".mainContent");
+            mainContentDiv = $(".mainContent"),
+            loginDialog = $("#loginDialog");
         mainContentDiv.empty();
         mobileMenu.hide();
+        loginDialog.hide();
         mainContentDiv.load(pagePath, function (response, status, xhr) {
             ASSERT.assert(status === "success", load404, "Assertion failed on loading ajax: " + pagePath);
             RESPONSIVE.adjustSize({"extra": false}); // some strangeness was happening with the rightside header width, this resolves it
@@ -441,6 +459,19 @@ var AJAX = (function () {
     load404 = function () {
         loadPage("404");
     };
+    
+    /*******************************************************************************
+    * initialPageLoad()
+    *   - Assist page load to open the linked hash
+    *******************************************************************************/
+    function initialPageLoad() {
+        var hash = getPageToLoad();
+        if (hash === "") {
+            hash = "home";
+        }
+        hash = hash.replace("#", "");
+        loadPage(hash);
+    }
     
     /*******************************************************************************
     * attachToMenu()
@@ -471,6 +502,9 @@ var AJAX = (function () {
         },
         attachToMenu: function () {
             attachToMenu();
+        },
+        initialPageLoad: function () {
+            initialPageLoad();
         }
     };
         
@@ -487,10 +521,10 @@ var DEVTOOLS = (function () {
         attachDevTools,
         body = $("body"),
         BUILD = "0.01",
-        buildObj = $("<h1 class=\"BUILD DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">Build #" + BUILD + "</h1>"),
+        buildObj = $("<h1 class=\"BUILD DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0; background-color: red;\">Build #" + BUILD + "</h1>"),
         clearErrorLog,
         displayErrorLog,
-        errorLogFront = "<h1 class=\"LOG DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0;\">",
+        errorLogFront = "<h1 class=\"LOG DEVTOOLS\" style=\"position: absolute; bottom: 0; right: 0; background-color: red;\">",
         errorLog,
         errorLogBack = "</h1>",
         execute,
@@ -518,7 +552,6 @@ var DEVTOOLS = (function () {
     *   - adds an error to the error log
     *******************************************************************************/
     addToErrorLog = function (error) {
-        console.log(error);
         var errorString = "<div>" + error + "</div>";
         errorLog += errorString;
     };
