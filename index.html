@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+        <title>Oakridge Country Club</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+		<link rel="stylesheet" href="resources/styles/main.css">
+        <link rel="stylesheet" href="resources/styles/slider.css">
+        
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+        
+        <script type="text/javascript" src="resources/scripts/jssor.js"></script>
+        <script type="text/javascript" src="resources/scripts/jssor.slider.js"></script>
+	</head>
+    <body>
+        <nav class="navbar navbar-deafult">
+            <div class="sidebar">
+                <div class="logo"><a href="#"><img src="resources/images/oakridgeLogo.png" id="logo"/></a></div>
+                <div class="side-nav">
+                    <div class="menu">
+                        <div class="menu-items">
+                            <a><div class="menu-item menu-item-1">Club History</div></a>
+                            <a><div class="menu-item menu-item-2">Membership</div></a>
+                            <a><div class="menu-item menu-item-3">Clubhouse</div></a>
+                            <a><div class="menu-item menu-item-4">Golf</div></a>
+                            <a><div class="menu-item menu-item-5">Pro Shop</div></a>
+                            <a><div class="menu-item menu-item-6">Events</div></a>
+                            <a><div class="menu-item menu-item-7">Restaurant</div></a>
+                            <a><div class="menu-item menu-item-8">Pool</div></a>
+                            <a><div class="menu-item menu-item-9">Contact</div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <div id="rightSide">
+            <div class="headerWell">
+                <header>
+                    <div class="row">
+                        <div class="col-sm-10 col-xs-12">
+                            <h1 id="pageTitle">Oakridge Country Club</h1>
+                        </div>
+                        <div class="col-sm-2 col-xs-12">
+                            <button class="btn loginButton pull-right"><div class="buttonInner loginButtonInner">Login</div></button>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            
+            <div id="loginDialog" style="display: none;">
+                <form id="loginDialogForm">
+                    <span id="loginDialogField1Title" class="loginDialogItem">Membership Number:</span>
+                    <input type="text" name="membershipNumber" class="loginDialogInput loginDialogItem">
+                    <span id="loginDialogField2Title" class="loginDialogItem">Password:</span>
+                    <span id="loginDialogForgotPassword">Forgot Password?</span>
+                    <input type="text" name="password" class="loginDialogInput loginDialogItem">
+                    <input type="submit" name="submit" class="loginDialogInputSubmit loginDialogItem">
+                </form>
+            </div>
+            
+            <div id="mobileMenu">
+                <div id="mobileMenuList">
+                    <ul>
+                        <li>one things</li>
+                        <li>two things</li>
+                        <li>three things</li>
+                    </ul>
+                </div>
+                <img id="mobileMenuPulldownTab" src="resources/images/menuPulldown.png"/>
+            </div>
+
+            <div class="mainContent">
+                
+            </div>
+        </div>
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- Latest compiled bootstraps JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
+        <script src="resources/scripts/app.js"></script>
+	</body>
+</html>
