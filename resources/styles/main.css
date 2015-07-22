@@ -750,7 +750,7 @@ a:active {
 
 .loginDialogItem {
     display: block;
-    font-size: 18px;
+    font-size: 35px;
 }
 
 #loginDialogTitle {
@@ -762,6 +762,7 @@ a:active {
 
 .loginDialogInput {
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .loginDialogInputSubmit {
@@ -785,7 +786,7 @@ a:active {
     float: right;
     margin-top: 6px;
     color: blue;
-    font-size: 11px;
+    font-size: 20px;
 }
 
 #loginDialogForgotPassword:hover {
